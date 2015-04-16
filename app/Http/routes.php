@@ -12,5 +12,5 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-Route::get('/grid/{id}', 'GridController@show');
 Route::get('/grid/create', 'GridController@create');
+Route::get('/grid/{id}', 'GridController@show');

@@ -16,7 +16,7 @@ class GridController extends Controller {
 	// Display a grid
 	public function show($id)
 	{
-		$grid = Grid::findOrFail($id);
+		$grid = \App\Grid::findOrFail($id);
 		return view('grid.show', compact('grid'));
 	}
 
