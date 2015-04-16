@@ -12,10 +12,5 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+Route::get('/grid/{id}', 'GridController@show');
+Route::get('/grid/create', 'GridController@create');
