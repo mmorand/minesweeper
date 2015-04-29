@@ -31,7 +31,7 @@ class GridController extends Controller {
 		$square->save();
 
 		if( $square->content == 10 )
-			return view('grid.show')->with('message', 'You lose !');
+			return view('/grid')->with('message', 'You lose !');
 
 		return redirect('/grid');
 	}
