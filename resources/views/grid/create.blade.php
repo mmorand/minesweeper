@@ -7,12 +7,12 @@
 			{!! Form::open(['url' => 'grid']) !!}
 
 				<div class="form-group">
-					{!! Form::label('cols', 'Width:') !!}
-					{!! Form::input('number', 'cols', null, ['class' => 'form-control']) !!}
+					{!! Form::label('width', 'Width:') !!}
+					{!! Form::input('number', 'width', null, ['class' => 'form-control']) !!}
 				</div>
 				<div class="form-group">
-					{!! Form::label('rows', 'Height:') !!}
-					{!! Form::input('number', 'rows', null, ['class' => 'form-control']) !!}
+					{!! Form::label('height', 'Height:') !!}
+					{!! Form::input('number', 'height', null, ['class' => 'form-control']) !!}
 				</div>
 				<div class="form-group">
 					{!! Form::label('bombs', 'Bombs:') !!}

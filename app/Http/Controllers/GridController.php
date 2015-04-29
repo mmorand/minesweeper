@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Grid;
-use App\Bombs;
+use App\Square;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +13,6 @@ class GridController extends Controller {
 	public function show()
 	{
 		$grid = Grid::firstOrFail();
-
 		return view('grid.show', compact('grid'));
 	}
 
@@ -23,6 +22,20 @@ class GridController extends Controller {
 		return view('grid.create');
 	}
 
+	public function square()
+	{
+		$input = Request::all();
+		$square = Square::where('x', $input['x'])->where('y', $input['y'])->firstOrFail();
+
+		$square->discover = true;
+		$square->save();
+
+		if( $square->content == 10 )
+			return view('grid.show')->with('message', 'You lose !');
+
+		return redirect('/grid');
+	}
+
 	// Store the grid to play
 	public function store()
 	{
@@ -30,39 +43,39 @@ class GridController extends Controller {
 
 		$bombs = array();
 
-		// Generate bombs
-		for ($i=0; $i < $input['bombs']; $i++) { 
-
-			$bomb_x = rand(1, $input['cols']);
-			$bomb_y = rand(1, $input['rows']);
-
-			while( in_array($bomb_x.','.$bomb_y, $bombs) == false ) {
-
-				$bomb_x = rand(1, $input['cols']);
-				$bomb_y = rand(1, $input['rows']);
-	
-				if( in_array($bomb_x.','.$bomb_y, $bombs) == false )
-					$bombs[$i] = $bomb_x.','.$bomb_y;
-			}
-		}
+		$max_square = $input['width'] * $input['height'];
+		$array_squares = range(1, $max_square);
+		shuffle($array_squares);
+		$bombs = array_slice($array_squares, 0, $input['bombs']);
 
 		// delete all grids & all bombs
 		Grid::truncate();
-		Bombs::truncate();
+		Square::truncate();
 
 		// Create grid with inputs
 		Grid::create($input);
-		foreach ($bombs as $bomb) {
-			$b = explode(',', $bomb);
 
-			$bo = new Bombs;
-			$bo->x = $b[0];
-			$bo->y = $b[1];
-
-			$bo->save();
-		}
+		// Assign bombs and number to squares
+		$this->setSquares($bombs, $input['width'], $input['height']);
 
 		return redirect('grid');
 	}
 
+	private function setSquares( $bombs, $width, $height )
+	{
+		for ($i=1; $i <= $height; $i++) { 
+			for ($j=1; $j <= $width; $j++) { 
+
+				$number = in_array( ((($i-1)*$width) + $j) , $bombs) ? 10 : '';
+
+				$square = new Square;
+				$square->grid_id = 1;
+				$square->x = $j;
+				$square->y = $i;
+				$square->discover = false;
+				$square->content = $number;
+				$square->save();
+			}
+		}
+	}
 }

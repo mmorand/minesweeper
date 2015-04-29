@@ -15,8 +15,8 @@ class CreateGridsTable extends Migration {
 		Schema::create('grids', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->tinyInteger('rows');
-			$table->tinyInteger('cols');
+			$table->tinyInteger('width');
+			$table->tinyInteger('height');
 			$table->tinyInteger('bombs');
 			$table->timestamps();
 		});

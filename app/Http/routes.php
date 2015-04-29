@@ -16,3 +16,4 @@ Route::get('grid', 'GridController@show');
 Route::get('grid/create', 'GridController@create');
 
 Route::post('grid', 'GridController@store');
+Route::post('grid/square', 'GridController@square');

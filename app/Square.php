@@ -2,18 +2,18 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Grid extends Model {
+class Square extends Model {
 
 	// Allow users to set following fields
 	protected $fillable = [
-		'width',
-		'height',
-		'bombs'
+		'x',
+		'y',
+		'content'
 	];
 
-	public function squares()
+	public function grid()
 	{
-		return $this->hasMany('App\Square');
+		return $this->belongsTo('App\Grid');
 	}
 
 }
